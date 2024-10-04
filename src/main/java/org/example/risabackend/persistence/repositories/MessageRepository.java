@@ -1,7 +1,8 @@
-package org.example.risabackend.repositories;
+package org.example.risabackend.persistence.repositories;
 
-import org.example.risabackend.models.Message;
+import org.example.risabackend.persistence.entity.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /*
  JpaRepository extends PagingAndSortingRepository which extends CrudRepository
@@ -10,5 +11,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  2. PagingAndSortingRepository provides methods to do pagination and sorting records.
  3. JpaRepository provides some JPA-related methods such as flushing the persistence context and deleting records in a batch.
 */
+@Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
 }

@@ -1,8 +1,8 @@
-package org.example.risabackend.models;
+package org.example.risabackend.persistence.entity;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity // Tells Hibernate to make a table out of this class
 @Table(name = "NOTIFICATIONS")
 public class Notification {
     @Id
@@ -15,18 +15,18 @@ public class Notification {
     private boolean seen;
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
-    private User user;
+    private NotificationLog notificationLog;
 
     // JPA specification requires a no-args constructor
     public Notification() {}
 
-    public Notification(String notificationType, String title, String content, User user) {
+    public Notification(String notificationType, String title, String content, NotificationLog notificationLog) {
         this.notificationType = notificationType;
         this.title = title;
         this.content = content;
         this.createdAt = System.currentTimeMillis();
         this.seen = false;
-        this.user = user;
+        this.notificationLog = notificationLog;
     }
 
     public Long getNotificationId() {
@@ -77,13 +77,7 @@ public class Notification {
         this.seen = seen;
     }
 
-    public User getUser1() {
-        return user;
-    }
 
-    public void setUser1(User user1) {
-        this.user = user1;
-    }
 
     @Override
     public String toString() {
@@ -94,7 +88,7 @@ public class Notification {
                 ", content = '" + content + '\'' +
                 ", createdAt = " + createdAt +
                 ", seen = " + seen +
-                ", user = " + user +
+                ", notificationLog = " + notificationLog +
                 '}';
     }
 }

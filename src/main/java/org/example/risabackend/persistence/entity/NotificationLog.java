@@ -1,10 +1,10 @@
-package org.example.risabackend.models;
+package org.example.risabackend.persistence.entity;
 
 import jakarta.persistence.*;
 
 import java.util.List;
 
-@Entity
+@Entity // Tells Hibernate to make a table out of this class
 @Table(name = "NOTIFICATION_LOG")
 public class NotificationLog {
     @Id
@@ -13,8 +13,8 @@ public class NotificationLog {
     @OneToMany
     private List<Notification> notifications;
     // non-owning side of OneToOne relationship
-//    @OneToOne(cascade = CascadeType.ALL)
-//    private User user;
+    @OneToOne(cascade = CascadeType.ALL)
+    private User user;
 
     // JPA specification requires a no-args constructor
     public NotificationLog() {}

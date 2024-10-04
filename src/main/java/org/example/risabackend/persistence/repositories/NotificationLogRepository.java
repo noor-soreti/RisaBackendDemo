@@ -1,11 +1,10 @@
-package org.example.risabackend.repositories;
+package org.example.risabackend.persistence.repositories;
 
-import org.example.risabackend.models.NotificationLog;
-import org.example.risabackend.models.User;
+import org.example.risabackend.persistence.entity.NotificationLog;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
+@Repository
 public interface NotificationLogRepository extends JpaRepository<NotificationLog, Long> {
 //    List<NotificationLog> orderInDescending(NotificationLog notificationLog);
 //    List<NotificationLog> orderInAscending(NotificationLog notificationLog);
