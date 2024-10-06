@@ -12,6 +12,7 @@ import lombok.Setter;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "message_id")
     private Long messageId;
     private String message;
     private Long senderId;

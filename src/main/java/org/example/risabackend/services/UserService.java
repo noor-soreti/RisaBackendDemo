@@ -9,10 +9,7 @@ import org.example.risabackend.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -97,19 +94,18 @@ public class UserService {
                 .build();
     }
 
-    public Set<User> createNewChatLog(Set<Long> userIds) {
+    public void createNewChatLog(Set<Long> userIds, Long chatLogId) {
         Set<User> userList = new HashSet<>();
         for (Long id : userIds) {
-            User user = userRepository.findFirstByUserId(id);
-            userList.add(user);
+            userRepository.findById(id).ifPresent(System.out::println);
         }
 
-        ChatLog chatLog = new ChatLog(userList, new HashSet<Message>());
-        System.out.println(chatLog);
-        chatLogRepository.save(chatLog);
+//        chatLogRepository.findById(chatLogId).ifPresent(chatLog -> {
+//            chatLog.getUsers().addAll(userList);
+//            chatLogRepository.save(chatLog);
+//        });
 
-
-        return userList;
+//        return Collections.singletonList(UserResponseDto.builder().build());
     }
 
     public void deleteAllUsers() {

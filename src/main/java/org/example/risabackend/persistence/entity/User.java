@@ -1,7 +1,7 @@
 package org.example.risabackend.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,9 +15,10 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor // JPA specification requires a no-args constructor
 public class User {
+    // @Setter(AccessLevel.PROTECTED) // change visibility of id setter property
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(AccessLevel.PROTECTED) // change visibility of id setter property
+    @Column(name = "user_id")
     private Long userId;
     private String fullName;
     private String password;
@@ -27,7 +28,8 @@ public class User {
     private String status;
     private Long lastSeen;
     private boolean isOnline;
-    @ManyToMany(fetch = FetchType.EAGER) // collections are lazy-loaded by default, need to specify fetch
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER) // collections are lazy-loaded by default, need to specify fetch
+    @JsonIgnore
     private Set<ChatLog> chatLogs;
 
 

@@ -7,6 +7,7 @@ import org.example.risabackend.persistence.repositories.ChatLogRepository;
 import org.example.risabackend.persistence.repositories.UserRepository;
 import org.example.risabackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,8 +42,8 @@ public class UserController {
 
     @GetMapping("id/{id}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
-        UserResponseDto userRequestDto = userService.getUseDtoById(id);
-        return ResponseEntity.ok(userRequestDto);
+        UserResponseDto user = userService.getUseDtoById(id);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("email/{email}")
@@ -66,10 +67,11 @@ public class UserController {
         return ResponseEntity.ok(Optional.ofNullable(userService.createUser(newUser)));
     }
 
-    @PostMapping("/newChatLog")
-    @ResponseBody
-    Set<User> createNewChatLog(@RequestBody Set<Long> userIds) {
-        return userService.createNewChatLog(userIds);
+    @PostMapping("/newChatLog/{chatLogId}")
+    void createNewChatLog(@PathVariable Long chatLogId, @RequestBody Set<Long> userIds) {
+        userService.createNewChatLog(userIds, chatLogId);
+//        return new ResponseEntity<>(userResponseDtos, HttpStatus.CREATED);
+//        return ResponseEntity.ok(userService.createNewChatLog(userIds, chatLogId));
     }
 
 //    @PostMapping("/sendNotification/{id}")

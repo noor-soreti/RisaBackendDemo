@@ -9,6 +9,7 @@ import java.util.List;
 public class NotificationLog {
     @Id
     @GeneratedValue
+    @Column(name = "notification_log_id")
     private Long notificationLogId;
     @OneToMany
     private List<Notification> notifications;

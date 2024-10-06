@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class Notification {
     @Id
     @GeneratedValue
+    @Column(name = "notification_id")
     private Long notificationId;
     private String notificationType;
     private String title;

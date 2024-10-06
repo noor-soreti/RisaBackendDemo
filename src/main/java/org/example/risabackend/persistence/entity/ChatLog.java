@@ -1,3 +1,9 @@
+/*
+* ChatLog is owning side because users can join/leave a chatroom
+* owning side specified with @JoinTable annotation
+* since the relationship is BI-DIRECTIONAL, the inverse side needs mappedBy to specify relationship field
+* */
+
 package org.example.risabackend.persistence.entity;
 
 import jakarta.persistence.*;
@@ -5,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,16 +21,26 @@ import java.util.Set;
 public class ChatLog {
     @Id
     @GeneratedValue
+    @Column(name = "chat_log_id")
     private Long chatLogId;
-    @ManyToMany(mappedBy = "chatLogs", fetch = FetchType.EAGER)
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "chatlog_users",
+            joinColumns = { @JoinColumn(name = "chatlog_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") })
     private Set<User> users;
+
     // One ChatLog can have many Messages
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Message> messages;
 
-    public ChatLog(Set<User> users, Set<Message> messages) {
+    public ChatLog(Set<User> users) {
         this.users = users;
-        this.messages = messages;
+        this.messages = new HashSet<>();
     }
 
     @Override

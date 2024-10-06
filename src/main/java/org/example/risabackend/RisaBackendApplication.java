@@ -1,10 +1,13 @@
 package org.example.risabackend;
 
+import org.example.risabackend.api.dto.UserResponseDto;
 import org.example.risabackend.persistence.entity.ChatLog;
 import org.example.risabackend.persistence.entity.User;
 import org.example.risabackend.persistence.repositories.ChatLogRepository;
 import org.example.risabackend.persistence.repositories.MessageRepository;
 import org.example.risabackend.persistence.repositories.UserRepository;
+import org.example.risabackend.services.ChatLogService;
+import org.example.risabackend.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -24,22 +27,30 @@ public class RisaBackendApplication {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(UserRepository userRepository, ChatLogRepository chatLogRepository, MessageRepository messageRepository) {
+	public CommandLineRunner commandLineRunner(UserService userService, ChatLogService chatLogService, MessageRepository messageRepository) {
 		return args -> {
 
-			List<User> allUsers = userRepository.findAll();
+			List<UserResponseDto> allUsers = userService.getAllUsers();
 
 			if (allUsers.isEmpty()) {
-//				User user1 = new User("Emily Grant", "emily.grant@gmail.com", "123-123-1234");
-//				User user2 = new User("Ketchup Kid", "ketchup.kid@gmail.com", "098-098-0987");
-//				User user3 = new User("Jane Doe", "jane.doe@gmail.com", "345-345-3456");
-//
-//				userRepository.save(user1);
-//				userRepository.save(user2);
-//				userRepository.save(user3);
-//
-//
-//
+				User user1 = new User("Emily Grant", "emily.grant@gmail.com", "123-123-1234");
+				User user2 = new User("Ketchup Kid", "ketchup.kid@gmail.com", "098-098-0987");
+				User user3 = new User("Jane Doe", "jane.doe@gmail.com", "345-345-3456");
+				User user4 = new User("John Doe", "john.doe@gmail.com", "345-345-3457");
+//				User user5 = new User("Gordon Ramsey", "gordon.ramsey@gmail.com", "930-992-3211");
+//				User user6 = new User("Jamie Oliver", "jamie.oliver@gmail.com", "930-381-1754");
+
+				userService.createUser(user1);
+				userService.createUser(user2);
+				userService.createUser(user3);
+				userService.createUser(user4);
+//				userService.createUser(user5);
+//				userService.createUser(user6);
+
+				Set<Long> longSet = new HashSet<>();
+				longSet.add(user1.getUserId());
+				longSet.add(user2.getUserId());
+
 //				// create or find chatLog
 //				ChatLog chatLog = new ChatLog(new HashSet<>(), new HashSet<>());
 //				chatLog.getUsers().add(user1);
