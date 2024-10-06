@@ -44,12 +44,6 @@ public class RisaBackendApplication {
 				userService.createUser(user2);
 				userService.createUser(user3);
 				userService.createUser(user4);
-//				userService.createUser(user5);
-//				userService.createUser(user6);
-
-				Set<Long> longSet = new HashSet<>();
-				longSet.add(user1.getUserId());
-				longSet.add(user2.getUserId());
 
 //				// create or find chatLog
 //				ChatLog chatLog = new ChatLog(new HashSet<>(), new HashSet<>());
@@ -71,9 +65,6 @@ public class RisaBackendApplication {
 //				messageRepository.save(message);
 //				chatLog.getMessages().add(message);
 //				chatLogRepository.save(chatLog);
-
-
-				// ------------------------------------------------------------------
 			}
 		};
 	}

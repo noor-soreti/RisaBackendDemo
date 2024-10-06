@@ -6,14 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "MESSAGE")
+@Table(name = "MESSAGES")
 @Getter @Setter
 @NoArgsConstructor // JPA specification requires a no-args constructor
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "message_id")
-    private Long messageId;
+    private Long id;
     private String message;
     private Long senderId;
     private Long deliveredAt;
@@ -28,7 +27,7 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "messageId=" + messageId +
+                "messageId=" + id +
                 ", message='" + message + '\'' +
                 ", senderId=" + senderId +
                 ", deliveredAt=" + deliveredAt +

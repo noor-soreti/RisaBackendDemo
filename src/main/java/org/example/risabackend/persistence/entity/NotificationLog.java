@@ -10,7 +10,7 @@ public class NotificationLog {
     @Id
     @GeneratedValue
     @Column(name = "notification_log_id")
-    private Long notificationLogId;
+    private Long id;
     @OneToMany
     private List<Notification> notifications;
     // non-owning side of OneToOne relationship
@@ -20,33 +20,9 @@ public class NotificationLog {
     // JPA specification requires a no-args constructor
     public NotificationLog() {}
 
-    public NotificationLog(Long notificationLogId, List<Notification> notifications) {
-        this.notificationLogId = notificationLogId;
+    public NotificationLog(List<Notification> notifications) {
         this.notifications = notifications;
 //        this.user = user;
     }
 
-    public Long getNotificationLogId() {
-        return notificationLogId;
-    }
-
-    public void setNotificationLogId(Long notificationLogId) {
-        this.notificationLogId = notificationLogId;
-    }
-
-    public List<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(List<Notification> notifications) {
-        this.notifications = notifications;
-    }
-
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
 }

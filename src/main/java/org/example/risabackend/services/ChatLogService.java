@@ -9,10 +9,7 @@ import org.example.risabackend.persistence.repositories.ChatLogRepository;
 import org.example.risabackend.persistence.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ChatLogService {
@@ -30,7 +27,7 @@ public class ChatLogService {
         for (ChatLog chatLog : chatLogs) {
             chatLogRequestDtos.add(
                     ChatLogRequestDto.builder()
-                            .chatLogId(chatLog.getChatLogId())
+                            .chatLogId(chatLog.getId())
                             .message(chatLog.getMessages())
                             .users(chatLog.getUsers())
                             .build()
@@ -45,44 +42,42 @@ public class ChatLogService {
             return null;
         }
         return ChatLogRequestDto.builder()
-                .chatLogId(chatLog.getChatLogId())
+                .chatLogId(chatLog.getId())
                 .message(chatLog.getMessages())
                 .users(chatLog.getUsers())
                 .build();
     }
 
-    public String getUserChatLog(Long userId) {
-        User user = userRepository.findFirstByUserId(userId);
-        if (user == null) {
-            return "BYE";
-        }
+    public Optional<Set<ChatLog>> getUserChatLog(Long userId) {
+        User userEntity = userRepository.findFirstByUserId(userId);
         UserResponseDto userResponseDto = UserResponseDto.builder()
-                                                        .id(user.getUserId())
-                                                        .email(user.getEmail())
-                                                        .fullName(user.getFullName())
-                                                        .profilePicture(user.getProfilePicture())
-                                                        .status(user.getStatus())
-                                                        .lastSeen(user.getLastSeen())
-                                                        .isOnline(user.isOnline())
-                                                        .chatLogs(user.getChatLogs())
+                                                        .id(userEntity.getId())
+                                                        .email(userEntity.getEmail())
+                                                        .fullName(userEntity.getFullName())
+                                                        .profilePicture(userEntity.getProfilePicture())
+                                                        .status(userEntity.getStatus())
+                                                        .lastSeen(userEntity.getLastSeen())
+                                                        .isOnline(userEntity.isOnline())
+                                                        .chatLogs(userEntity.getChatLogs())
                                                         .build();
-        System.out.println(userResponseDto);
-        return "HELLO";
+        return Optional.of(userResponseDto.chatLogs());
+
     }
 
-    public Long createChatLog(Set<Long> userIds) {
-        System.out.println("WHAT THE HELL");
+    public void createChatLog(Set<Long> userIds) {
         List<User> users = userRepository.findAllById(userIds);
         Set<User> userSet = new HashSet<>(users);
 
         ChatLog chatLog = new ChatLog(userSet);
-        ChatLog clog =  chatLogRepository.saveAndFlush(chatLog);
-        ChatLogRequestDto.builder()
-                .chatLogId(clog.getChatLogId())
-                .message(clog.getMessages())
-                .users(clog.getUsers())
-                .build();
-        return clog.getChatLogId();
+        ChatLog clog =  chatLogRepository.save(chatLog);
+        System.out.println(clog);
+//        System.out.println(clog.getChatLogId());
+//        ChatLogRequestDto.builder()
+//                .chatLogId(clog.getChatLogId())
+//                .message(clog.getMessages())
+//                .users(clog.getUsers())
+//                .build();
+//        return clog.getChatLogId();
     }
 
     public void appendUserToChatLog(Long chatLogId, List<Long> userId) {
@@ -103,7 +98,7 @@ public class ChatLogService {
         chatLog.getMessages().add(message1);
         chatLogRepository.saveAndFlush(chatLog);
         return ChatLogRequestDto.builder()
-                .chatLogId(chatLog.getChatLogId())
+                .chatLogId(chatLog.getId())
                 .message(chatLog.getMessages())
                 .users(chatLog.getUsers())
                 .build();

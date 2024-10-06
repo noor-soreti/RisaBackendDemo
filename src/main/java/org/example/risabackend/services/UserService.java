@@ -28,7 +28,7 @@ public class UserService {
         for (User user : users) {
             userRequestDtos.add(
                     UserResponseDto.builder()
-                            .id(user.getUserId())
+                            .id(user.getId())
                             .email(user.getEmail())
                             .fullName(user.getFullName())
                             .profilePicture(user.getProfilePicture())
@@ -48,7 +48,7 @@ public class UserService {
         User userEntity = userRepository.findFirstByUserId(id);
 
         return UserResponseDto.builder()
-                .id(userEntity.getUserId())
+                .id(userEntity.getId())
                 .email(userEntity.getEmail())
                 .fullName(userEntity.getFullName())
                 .profilePicture(userEntity.getProfilePicture())
@@ -62,7 +62,7 @@ public class UserService {
     public UserResponseDto getUserByEmail(String email) {
         User userEntity = userRepository.findByEmail(email);
         return UserResponseDto.builder()
-                .id(userEntity.getUserId())
+                .id(userEntity.getId())
                 .email(userEntity.getEmail())
                 .fullName(userEntity.getFullName())
                 .profilePicture(userEntity.getProfilePicture())
@@ -83,7 +83,7 @@ public class UserService {
         userRepository.save(newUser);
 
         return UserResponseDto.builder()
-                .id(newUser.getUserId())
+                .id(newUser.getId())
                 .email(newUser.getEmail())
                 .fullName(newUser.getFullName())
                 .profilePicture(newUser.getProfilePicture())

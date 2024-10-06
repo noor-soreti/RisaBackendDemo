@@ -1,21 +1,18 @@
 package org.example.risabackend.api.controllers;
 
 import org.example.risabackend.api.dto.ChatLogRequestDto;
-import org.example.risabackend.api.dto.UserResponseDto;
 import org.example.risabackend.persistence.entity.ChatLog;
-import org.example.risabackend.persistence.entity.User;
 import org.example.risabackend.services.ChatLogService;
-import org.example.risabackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "**") // CrossOrigin -> Enables CORS only for specific methods
-@RequestMapping("/chatlog")
+@RequestMapping("/api/chatlog")
 public class ChatLogController {
 
     private final ChatLogService chatLogService;
@@ -26,7 +23,6 @@ public class ChatLogController {
     }
 
     // GET
-
     @GetMapping
     public List<ChatLogRequestDto> getChatLog() {
         return chatLogService.getAllChatLogs();
@@ -38,14 +34,14 @@ public class ChatLogController {
     }
 
     @GetMapping("/userid/{userId}")
-    public String getUserChatLog(@PathVariable Long userId) {
+    public Optional<Set<ChatLog>> getUserChatLog(@PathVariable Long userId) {
         return chatLogService.getUserChatLog(userId);
     }
 
     // POST
     @PostMapping
-    public Long createChatLog(@RequestBody Set<Long> userId) {
-       return chatLogService.createChatLog(userId);
+    public void createChatLog(@RequestBody Set<Long> userId) {
+       chatLogService.createChatLog(userId);
     }
 
     @PostMapping("/appendUserToChatLog/{chatlogid}")

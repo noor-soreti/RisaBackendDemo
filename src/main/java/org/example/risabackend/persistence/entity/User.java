@@ -18,8 +18,7 @@ public class User {
     // @Setter(AccessLevel.PROTECTED) // change visibility of id setter property
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
-    private Long userId;
+    private Long id;
     private String fullName;
     private String password;
     private String email;
@@ -50,7 +49,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId = " + userId +
+                "userId = " + id +
                 ", fullName = '" + fullName + '\'' +
                 ", email = '" + email + '\'' +
                 ", phoneNumber = '" + phoneNumber + '\'' +

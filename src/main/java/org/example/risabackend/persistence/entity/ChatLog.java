@@ -15,14 +15,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "CHAT_LOG")
+@Table(name = "CHATLOGS")
 @Getter @Setter
 @NoArgsConstructor // JPA specification requires a no-args constructor
 public class ChatLog {
     @Id
     @GeneratedValue
-    @Column(name = "chat_log_id")
-    private Long chatLogId;
+    private Long id;
+
+    // One ChatLog can have many Messages
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "chatlog_id")
+    private Set<Message> messages;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -34,10 +38,6 @@ public class ChatLog {
             inverseJoinColumns = { @JoinColumn(name = "user_id") })
     private Set<User> users;
 
-    // One ChatLog can have many Messages
-    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Message> messages;
-
     public ChatLog(Set<User> users) {
         this.users = users;
         this.messages = new HashSet<>();
@@ -46,7 +46,7 @@ public class ChatLog {
     @Override
     public String toString() {
         return "ChatLog{" +
-                "chatLogId=" + chatLogId +
+                "chatLogId=" + id +
                 ", users=" + users +
                 ", messages=" + messages +
                 '}';

@@ -18,7 +18,7 @@ import java.util.Set;
 
 //@CrossOrigin(origins = "http://localhost:8081")
 @RestController
-@RequestMapping("/user") // ensures HTTP requests to /user is mapped to this controller class
+@RequestMapping("/api/user") // ensures HTTP requests to /user is mapped to this controller class
 public class UserController {
 
     private final UserService userService;
