@@ -1,7 +1,6 @@
 package org.example.risabackend.api.controllers;
 
 import org.example.risabackend.persistence.entity.Message;
-import org.example.risabackend.persistence.repositories.MessageRepository;
 import org.example.risabackend.services.MessageService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,14 +16,14 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-//    @GetMapping
-//    public List<Message> getMessages() {
-//        return messageController.findAll();
-//    }
+    @GetMapping
+    public List<Message> getAllMessages() {
+        return messageService.getAllMessages();
+    }
 
     // GET
 
-    @GetMapping("/chatLog/{chatlogid}/messages")
+    @GetMapping("/chatlog/{chatlogid}/messages")
     public List<Message> getMessagesByChatLog(@PathVariable Long chatlogid) {
         return messageService.getAllMessagesByChatLogId(chatlogid);
     }
@@ -34,5 +33,4 @@ public class MessageController {
     public Message addMessage(@PathVariable Long chatlogid, @RequestBody Message message) {
         return messageService.createMessage(chatlogid, message);
     }
-
 }

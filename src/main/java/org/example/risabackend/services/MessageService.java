@@ -21,6 +21,10 @@ public class MessageService {
         this.chatLogRepository = chatLogRepository;
     }
 
+    public List<Message> getAllMessages() {
+        return messageRepository.findAll();
+    }
+
     public List<Message> getAllMessagesByChatLogId(Long chatLogId) {
         ChatLog chatLog = chatLogRepository.findById(chatLogId)
                 .orElseThrow(() -> new RuntimeException("Chat log not found with id: " + chatLogId));

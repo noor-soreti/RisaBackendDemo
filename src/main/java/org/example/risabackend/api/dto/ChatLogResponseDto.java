@@ -7,7 +7,7 @@ import org.example.risabackend.persistence.entity.User;
 import java.util.Set;
 
 @Builder
-public record ChatLogRequestDto(
+public record ChatLogResponseDto(
         Long chatLogId,
         Set<Message> message,
         Set<User> users

@@ -1,10 +1,7 @@
 package org.example.risabackend.services;
 
 import org.example.risabackend.api.dto.UserResponseDto;
-import org.example.risabackend.persistence.entity.ChatLog;
-import org.example.risabackend.persistence.entity.Message;
 import org.example.risabackend.persistence.entity.User;
-import org.example.risabackend.persistence.repositories.ChatLogRepository;
 import org.example.risabackend.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +11,10 @@ import java.util.*;
 @Service
 public class UserService {
     private UserRepository userRepository;
-    private ChatLogRepository chatLogRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, ChatLogRepository chatLogRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.chatLogRepository = chatLogRepository;
     }
 
     public List<UserResponseDto> getAllUsers() {
@@ -39,13 +34,11 @@ public class UserService {
                             .build()
             );
         }
-
         return userRequestDtos;
-
     }
 
     public UserResponseDto getUseDtoById(Long id) {
-        User userEntity = userRepository.findFirstByUserId(id);
+        User userEntity = userRepository.findFirstById(id);
 
         return UserResponseDto.builder()
                 .id(userEntity.getId())

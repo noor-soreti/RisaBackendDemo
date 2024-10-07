@@ -27,7 +27,7 @@ public class RisaBackendApplication {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(UserService userService, ChatLogService chatLogService, MessageRepository messageRepository) {
+	public CommandLineRunner commandLineRunner(UserService userService) {
 		return args -> {
 
 			List<UserResponseDto> allUsers = userService.getAllUsers();
@@ -37,8 +37,9 @@ public class RisaBackendApplication {
 				User user2 = new User("Ketchup Kid", "ketchup.kid@gmail.com", "098-098-0987");
 				User user3 = new User("Jane Doe", "jane.doe@gmail.com", "345-345-3456");
 				User user4 = new User("John Doe", "john.doe@gmail.com", "345-345-3457");
-//				User user5 = new User("Gordon Ramsey", "gordon.ramsey@gmail.com", "930-992-3211");
-//				User user6 = new User("Jamie Oliver", "jamie.oliver@gmail.com", "930-381-1754");
+				User user5 = new User("Gordon Ramsey", "gordon.ramsey@gmail.com", "930-992-3211");
+				User user6 = new User("Jamie Oliver", "jamie.oliver@gmail.com", "930-381-1754");
+
 
 				userService.createUser(user1);
 				userService.createUser(user2);

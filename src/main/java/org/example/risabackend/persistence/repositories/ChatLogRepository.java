@@ -9,6 +9,6 @@ import java.util.Set;
 
 @Repository
 public interface ChatLogRepository extends JpaRepository<ChatLog, Long> {
-    ChatLog findChatLogByChatLogId(Long id);
-    ChatLog findChatLogByUser(User user);
+    ChatLog findChatLogById(Long id);
+    ChatLog findChatLogByUsers(Set<User> users);
 }

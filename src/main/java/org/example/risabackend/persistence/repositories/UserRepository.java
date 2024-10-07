@@ -10,6 +10,5 @@ import java.util.Set;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
-    User findFirstByUserId(Long id);
-    Set<ChatLog> findChatLogByUserId(Long id);
+    User findFirstById(Long id);
 }

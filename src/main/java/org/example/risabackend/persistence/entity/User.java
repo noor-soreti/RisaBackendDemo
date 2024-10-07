@@ -17,7 +17,7 @@ import java.util.Set;
 public class User {
     // @Setter(AccessLevel.PROTECTED) // change visibility of id setter property
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fullName;
     private String password;

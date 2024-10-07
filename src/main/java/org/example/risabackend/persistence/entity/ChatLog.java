@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor // JPA specification requires a no-args constructor
 public class ChatLog {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // One ChatLog can have many Messages

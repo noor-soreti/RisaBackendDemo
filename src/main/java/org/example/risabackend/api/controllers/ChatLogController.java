@@ -1,6 +1,6 @@
 package org.example.risabackend.api.controllers;
 
-import org.example.risabackend.api.dto.ChatLogRequestDto;
+import org.example.risabackend.api.dto.ChatLogResponseDto;
 import org.example.risabackend.persistence.entity.ChatLog;
 import org.example.risabackend.services.ChatLogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +24,18 @@ public class ChatLogController {
 
     // GET
     @GetMapping
-    public List<ChatLogRequestDto> getChatLog() {
+    public List<ChatLogResponseDto> getChatLog() {
         return chatLogService.getAllChatLogs();
     }
 
     @GetMapping("/chatlogid/{chatlogid}")
-    public ChatLogRequestDto getChatLogById(@PathVariable Long chatlogid) {
+    public ChatLogResponseDto getChatLogById(@PathVariable Long chatlogid) {
         return chatLogService.getChatLogById(chatlogid);
     }
 
     @GetMapping("/userid/{userId}")
-    public Optional<Set<ChatLog>> getUserChatLog(@PathVariable Long userId) {
-        return chatLogService.getUserChatLog(userId);
+    public Optional<Set<ChatLog>> getUserChatLogs(@PathVariable Long userId) {
+        return chatLogService.getUserChatLogs(userId);
     }
 
     // POST
@@ -53,7 +53,12 @@ public class ChatLogController {
 
     // DELETE
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
+    public void deleteChatLog(@PathVariable Long id) {
+        chatLogService.deleteChatLog(id);
+    }
+
+    @DeleteMapping("/all")
     public void deleteAllChatLogs() {
         chatLogService.deleteAllChatLogs();
     }
