@@ -1,8 +1,5 @@
-package org.example.risabackend.services;
+package org.example.risabackend.user;
 
-import org.example.risabackend.api.dto.UserResponseDto;
-import org.example.risabackend.persistence.entity.User;
-import org.example.risabackend.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +21,8 @@ public class UserService {
             userRequestDtos.add(
                     UserResponseDto.builder()
                             .id(user.getId())
-                            .email(user.getEmail())
                             .fullName(user.getFullName())
+                            .phoneNumber(user.getPhoneNumber())
                             .profilePicture(user.getProfilePicture())
                             .status(user.getStatus())
                             .lastSeen(user.getLastSeen())
@@ -37,13 +34,13 @@ public class UserService {
         return userRequestDtos;
     }
 
-    public UserResponseDto getUseDtoById(Long id) {
+    public UserResponseDto getUserDtoById(Long id) {
         User userEntity = userRepository.findFirstById(id);
 
         return UserResponseDto.builder()
                 .id(userEntity.getId())
-                .email(userEntity.getEmail())
                 .fullName(userEntity.getFullName())
+                .phoneNumber(userEntity.getPhoneNumber())
                 .profilePicture(userEntity.getProfilePicture())
                 .status(userEntity.getStatus())
                 .lastSeen(userEntity.getLastSeen())
@@ -52,12 +49,15 @@ public class UserService {
                 .build();
     }
 
-    public UserResponseDto getUserByEmail(String email) {
-        User userEntity = userRepository.findByEmail(email);
+    public UserResponseDto getUserByPhoneNumber(String phoneNumber) {
+        User userEntity = userRepository.findByPhoneNumber(phoneNumber);
+        if (userEntity == null) {
+            return null;
+        }
         return UserResponseDto.builder()
                 .id(userEntity.getId())
-                .email(userEntity.getEmail())
                 .fullName(userEntity.getFullName())
+                .phoneNumber(userEntity.getPhoneNumber())
                 .profilePicture(userEntity.getProfilePicture())
                 .status(userEntity.getStatus())
                 .lastSeen(userEntity.getLastSeen())
@@ -67,9 +67,10 @@ public class UserService {
     }
 
     public UserResponseDto createUser(User newUser) {
-        User user = userRepository.findByEmail(newUser.getEmail());
+        User user = userRepository.findByPhoneNumber(newUser.getPhoneNumber());
 
         if (user != null) {
+            System.out.println("createUser: COULD NOT CREATE USER");
             return null;
         }
 
@@ -77,8 +78,8 @@ public class UserService {
 
         return UserResponseDto.builder()
                 .id(newUser.getId())
-                .email(newUser.getEmail())
                 .fullName(newUser.getFullName())
+                .phoneNumber(newUser.getPhoneNumber())
                 .profilePicture(newUser.getProfilePicture())
                 .status(newUser.getStatus())
                 .lastSeen(newUser.getLastSeen())

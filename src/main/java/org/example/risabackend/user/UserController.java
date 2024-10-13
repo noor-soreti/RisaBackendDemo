@@ -1,20 +1,16 @@
-package org.example.risabackend.api.controllers;
+package org.example.risabackend.user;
 
-import org.example.risabackend.api.dto.UserResponseDto;
-import org.example.risabackend.persistence.entity.User;
-import org.example.risabackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 //@CrossOrigin(origins = "http://localhost:8081")
 @RestController
-@RequestMapping("/api/user") // ensures HTTP requests to /user is mapped to this controller class
+@RequestMapping("/api/user") // ensures HTTP requests to /api/user is mapped to this controller class
 public class UserController {
 
     private final UserService userService;
@@ -33,38 +29,35 @@ public class UserController {
 
     @GetMapping("id/{id}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
-        UserResponseDto user = userService.getUseDtoById(id);
+        UserResponseDto user = userService.getUserDtoById(id);
         return ResponseEntity.ok(user);
-    }
-
-    @GetMapping("email/{email}")
-    public ResponseEntity<UserResponseDto> getUserByEmail(@PathVariable String email) {
-        UserResponseDto userRequestDto = userService.getUserByEmail(email);
-        return ResponseEntity.ok(userRequestDto);
     }
 
     // POST
     @PostMapping("/login")
     @ResponseBody // @ResponseBody ->  tells controller that returned object is automatically serialized into JSON and passed back into *HttpResponse* object
-    ResponseEntity<Optional<UserResponseDto>> loginUser(@RequestBody User newUser) {
-        UserResponseDto userResponseDto = userService.getUserByEmail(newUser.getEmail());
+    ResponseEntity<UserResponseDto> loginUser(@RequestBody User newUser) {
+        UserResponseDto userResponseDto = userService.getUserByPhoneNumber(newUser.getPhoneNumber());
         if (userResponseDto == null) {
+            System.out.println("login: user does not exist");
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         // return ResponseEntity.ok(HttpStatus.CREATED).body();
-        return ResponseEntity.ok(Optional.of(userResponseDto));
+        System.out.println("login: user exists");
+        return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
+//        return ResponseEntity.ok(Optional.of(userResponseDto));
     }
 
     @PostMapping("/register")
-    @ResponseBody // @ResponseBody ->  tells controller that returned object is automatically serialized into JSON and passed back into *HttpResponse* object
-    ResponseEntity<Optional<UserResponseDto>> registerUser(@RequestBody User newUser) {
+    @ResponseBody// @ResponseBody ->  tells controller that returned object is automatically serialized into JSON and passed back into *HttpResponse* object
+    ResponseEntity<UserResponseDto> registerUser(@RequestBody User newUser) {
         UserResponseDto userResponseDto = userService.createUser(newUser);
 
         if (userResponseDto == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         // return ResponseEntity.ok(HttpStatus.CREATED).body();
-        return ResponseEntity.ok(Optional.of(userResponseDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
     }
 
     @PostMapping("/newChatLog/{chatLogId}")
@@ -106,7 +99,7 @@ public class UserController {
 //        userRepository.deleteById(id);
 //    }
 //
-    @DeleteMapping
+    @DeleteMapping("/deleteAll")
     void deleteAllUsers() {
         userService.deleteAllUsers();
     }

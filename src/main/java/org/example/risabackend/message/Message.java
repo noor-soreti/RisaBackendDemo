@@ -1,4 +1,4 @@
-package org.example.risabackend.persistence.entity;
+package org.example.risabackend.message;
 
 import jakarta.persistence.*;
 import lombok.Getter;

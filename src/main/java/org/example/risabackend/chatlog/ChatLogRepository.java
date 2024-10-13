@@ -1,7 +1,6 @@
-package org.example.risabackend.persistence.repositories;
+package org.example.risabackend.chatlog;
 
-import org.example.risabackend.persistence.entity.ChatLog;
-import org.example.risabackend.persistence.entity.User;
+import org.example.risabackend.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

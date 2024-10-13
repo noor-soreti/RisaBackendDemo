@@ -1,7 +1,5 @@
-package org.example.risabackend.api.controllers;
+package org.example.risabackend.message;
 
-import org.example.risabackend.persistence.entity.Message;
-import org.example.risabackend.services.MessageService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

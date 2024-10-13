@@ -1,13 +1,8 @@
 package org.example.risabackend;
 
-import org.example.risabackend.api.dto.UserResponseDto;
-import org.example.risabackend.persistence.entity.ChatLog;
-import org.example.risabackend.persistence.entity.User;
-import org.example.risabackend.persistence.repositories.ChatLogRepository;
-import org.example.risabackend.persistence.repositories.MessageRepository;
-import org.example.risabackend.persistence.repositories.UserRepository;
-import org.example.risabackend.services.ChatLogService;
-import org.example.risabackend.services.UserService;
+import org.example.risabackend.user.UserResponseDto;
+import org.example.risabackend.user.User;
+import org.example.risabackend.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -33,12 +28,12 @@ public class RisaBackendApplication {
 			List<UserResponseDto> allUsers = userService.getAllUsers();
 
 			if (allUsers.isEmpty()) {
-				User user1 = new User("Emily Grant", "emily.grant@gmail.com", "123-123-1234");
-				User user2 = new User("Ketchup Kid", "ketchup.kid@gmail.com", "098-098-0987");
-				User user3 = new User("Jane Doe", "jane.doe@gmail.com", "345-345-3456");
-				User user4 = new User("John Doe", "john.doe@gmail.com", "345-345-3457");
-				User user5 = new User("Gordon Ramsey", "gordon.ramsey@gmail.com", "930-992-3211");
-				User user6 = new User("Jamie Oliver", "jamie.oliver@gmail.com", "930-381-1754");
+				User user1 = new User("Emily Grant", "555-123-1234", "test123");
+				User user2 = new User("Ketchup Kid", "098-098-0987", "test123");
+				User user3 = new User("Jane Doe", "345-345-3456", "test123");
+				User user4 = new User("John Doe",  "345-345-3457", "test123");
+				User user5 = new User("Gordon Ramsey", "930-992-3211", "test123");
+				User user6 = new User("Jamie Oliver", "930-381-1754", "test123");
 
 
 				userService.createUser(user1);
@@ -74,7 +69,7 @@ public class RisaBackendApplication {
 
 /*
  * curl -X GET localhost:8080/user/userNotifications/852
- * curl -X POST localhost:8080/user/register -H 'Content-type:application/json' -d '{"fullName": "New User", "password": "password123", "email": "new.user@gmail.com", "phoneNumber": "514-113-0922"}'
+ * curl -X POST localhost:8080/user/register -H 'Content-type:application/json' -d '{"fullName": "New User", "password": "password123", "phoneNumber": "514-113-0922"}'
  * curl -X PUT localhost:8080/user/3 -H 'Content-type:application/json' -d '{"fullName": "Bleep Bleep", "password": "password123", "email": "bleep.bleep@gmail.com", "phoneNumber": "514-113-0922"}'
  * curl -X DELETE localhost:8080/user/0
  * */

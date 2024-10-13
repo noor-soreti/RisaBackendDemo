@@ -1,9 +1,7 @@
-package org.example.risabackend.services;
+package org.example.risabackend.message;
 
-import org.example.risabackend.persistence.entity.ChatLog;
-import org.example.risabackend.persistence.entity.Message;
-import org.example.risabackend.persistence.repositories.ChatLogRepository;
-import org.example.risabackend.persistence.repositories.MessageRepository;
+import org.example.risabackend.chatlog.ChatLog;
+import org.example.risabackend.chatlog.ChatLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

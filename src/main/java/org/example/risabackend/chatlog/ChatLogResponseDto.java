@@ -1,8 +1,8 @@
-package org.example.risabackend.api.dto;
+package org.example.risabackend.chatlog;
 
 import lombok.Builder;
-import org.example.risabackend.persistence.entity.Message;
-import org.example.risabackend.persistence.entity.User;
+import org.example.risabackend.message.Message;
+import org.example.risabackend.user.User;
 
 import java.util.Set;
 

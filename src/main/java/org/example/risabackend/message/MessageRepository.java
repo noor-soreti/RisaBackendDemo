@@ -1,6 +1,5 @@
-package org.example.risabackend.persistence.repositories;
+package org.example.risabackend.message;
 
-import org.example.risabackend.persistence.entity.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

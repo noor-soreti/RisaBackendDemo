@@ -4,12 +4,14 @@
 * since the relationship is BI-DIRECTIONAL, the inverse side needs mappedBy to specify relationship field
 * */
 
-package org.example.risabackend.persistence.entity;
+package org.example.risabackend.chatlog;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.risabackend.message.Message;
+import org.example.risabackend.user.User;
 
 import java.util.HashSet;
 import java.util.Set;

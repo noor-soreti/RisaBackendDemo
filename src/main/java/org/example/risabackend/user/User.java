@@ -1,10 +1,12 @@
-package org.example.risabackend.persistence.entity;
+package org.example.risabackend.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.risabackend.chatlog.ChatLog;
+import org.example.risabackend.contact.Contact;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,8 +23,7 @@ public class User {
     private Long id;
     private String fullName;
     private String password;
-    private String email;
-    private String phoneNumber = "123-123-1234";
+    private String phoneNumber;
     private String profilePicture = "profilePicture";
     private String status;
     private Long lastSeen;
@@ -30,16 +31,18 @@ public class User {
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER) // collections are lazy-loaded by default, need to specify fetch
     @JsonIgnore
     private Set<ChatLog> chatLogs;
+    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    private Set<Contact> contacts;
 
-
-    public User(String fullName, String email, String password) {
+    public User(String fullName, String phoneNumber, String password) {
         this.fullName = fullName;
-        this.email = email;
+        this.phoneNumber = phoneNumber;
         this.password = password;
         this.status = "default";
         this.lastSeen = System.currentTimeMillis();
         this.isOnline = true;
         this.chatLogs = new HashSet<>();
+        this.contacts = new HashSet<>();
     }
 
     public void encrypt(String password) {
@@ -49,9 +52,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId = " + id +
+                "id = " + id +
                 ", fullName = '" + fullName + '\'' +
-                ", email = '" + email + '\'' +
                 ", phoneNumber = '" + phoneNumber + '\'' +
                 ", profilePicture = '" + profilePicture + '\'' +
                 ", status = '" + status + '\'' +

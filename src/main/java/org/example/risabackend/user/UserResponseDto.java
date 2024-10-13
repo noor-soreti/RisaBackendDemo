@@ -1,6 +1,6 @@
-package org.example.risabackend.api.dto;
+package org.example.risabackend.user;
 
-import org.example.risabackend.persistence.entity.ChatLog;
+import org.example.risabackend.chatlog.ChatLog;
 
 import java.util.Set;
 import lombok.Builder;
@@ -8,8 +8,8 @@ import lombok.Builder;
 @Builder
 public record UserResponseDto(
         Long id,
-        String email,
         String fullName,
+        String phoneNumber,
         String profilePicture,
         String status,
         Long lastSeen,

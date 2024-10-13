@@ -1,12 +1,9 @@
-package org.example.risabackend.services;
+package org.example.risabackend.chatlog;
 
-import org.example.risabackend.api.dto.ChatLogResponseDto;
-import org.example.risabackend.api.dto.UserResponseDto;
-import org.example.risabackend.persistence.entity.ChatLog;
-import org.example.risabackend.persistence.entity.Message;
-import org.example.risabackend.persistence.entity.User;
-import org.example.risabackend.persistence.repositories.ChatLogRepository;
-import org.example.risabackend.persistence.repositories.UserRepository;
+import org.example.risabackend.user.UserResponseDto;
+import org.example.risabackend.message.Message;
+import org.example.risabackend.user.User;
+import org.example.risabackend.user.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -52,7 +49,6 @@ public class ChatLogService {
         User userEntity = userRepository.findFirstById(userId);
         UserResponseDto userResponseDto = UserResponseDto.builder()
                                                         .id(userEntity.getId())
-                                                        .email(userEntity.getEmail())
                                                         .fullName(userEntity.getFullName())
                                                         .profilePicture(userEntity.getProfilePicture())
                                                         .status(userEntity.getStatus())

@@ -1,8 +1,5 @@
-package org.example.risabackend.api.controllers;
+package org.example.risabackend.chatlog;
 
-import org.example.risabackend.api.dto.ChatLogResponseDto;
-import org.example.risabackend.persistence.entity.ChatLog;
-import org.example.risabackend.services.ChatLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
