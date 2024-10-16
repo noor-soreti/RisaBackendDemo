@@ -1,5 +1,6 @@
 package org.example.risabackend.user;
 
+import org.example.risabackend.user.dto.UserResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

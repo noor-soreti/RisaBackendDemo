@@ -4,8 +4,6 @@ import org.example.risabackend.chatlog.ChatLog;
 import org.example.risabackend.chatlog.ChatLogRepository;
 import org.example.risabackend.user.User;
 import org.example.risabackend.user.UserRepository;
-import org.example.risabackend.user.UserResponseDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;

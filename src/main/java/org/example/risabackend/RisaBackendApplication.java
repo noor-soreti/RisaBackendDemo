@@ -1,6 +1,6 @@
 package org.example.risabackend;
 
-import org.example.risabackend.user.UserResponseDto;
+import org.example.risabackend.user.dto.UserResponseDto;
 import org.example.risabackend.user.User;
 import org.example.risabackend.user.UserService;
 import org.slf4j.Logger;

@@ -1,6 +1,6 @@
 package org.example.risabackend.chatlog;
 
-import org.example.risabackend.user.UserResponseDto;
+import org.example.risabackend.user.dto.UserResponseDto;
 import org.example.risabackend.message.Message;
 import org.example.risabackend.user.User;
 import org.example.risabackend.user.UserRepository;

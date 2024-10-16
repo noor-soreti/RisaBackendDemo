@@ -1,5 +1,6 @@
 package org.example.risabackend.user;
 
+import org.example.risabackend.user.dto.UserResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,12 +34,13 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/phoneNumber")
-    public ResponseEntity<UserResponseDto> getUserByPhoneNumber(@RequestParam String phoneNumber) {
+    @GetMapping("/phoneNumber/{phoneNumber}")
+    public ResponseEntity<UserResponseDto> getUserByPhoneNumber(@PathVariable String phoneNumber) {
         UserResponseDto user = userService.getUserByPhoneNumber(phoneNumber);
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
+        System.out.println(user.toString());
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
@@ -48,7 +50,8 @@ public class UserController {
     ResponseEntity<UserResponseDto> loginUser(@RequestBody User newUser) {
         UserResponseDto userResponseDto = userService.getUserByPhoneNumber(newUser.getPhoneNumber());
         if (userResponseDto == null) {
-            System.out.println("login: user does not exist");
+            System.out.println("LOGIN: user does not exist");
+            System.out.println(ResponseEntity.status(HttpStatus.CONFLICT).build());
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         // return ResponseEntity.ok(HttpStatus.CREATED).body();

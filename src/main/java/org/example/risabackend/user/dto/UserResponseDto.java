@@ -1,4 +1,4 @@
-package org.example.risabackend.user;
+package org.example.risabackend.user.dto;
 
 import org.example.risabackend.chatlog.ChatLog;
 
@@ -17,5 +17,6 @@ public record UserResponseDto(
         Timestamp lastSeen,
         boolean isOnline,
         Set<ChatLog> chatLogs,
-        Set<Contact> contacts) {
+        Set<Contact> contacts
+) {
 }
