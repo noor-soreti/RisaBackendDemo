@@ -3,6 +3,7 @@ package org.example.risabackend.message;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "**")
@@ -26,9 +27,22 @@ public class MessageController {
         return messageService.getAllMessagesByChatLogId(chatlogid);
     }
 
+    @GetMapping("/getUserMessagesFromChatlog/{chatlogid}/{userid}")
+    public Set<Message> getUserMessagesFromChatlog(@PathVariable Long chatlogid, @PathVariable Long userid) {
+        return messageService.findUserMessagesInChatLog(chatlogid, userid);
+    }
+
     // POST
     @PostMapping("/chatlog/{chatlogid}/message")
-    public Message addMessage(@PathVariable Long chatlogid, @RequestBody Message message) {
+    public Message sendMessage(@PathVariable Long chatlogid, @RequestBody Message message) {
         return messageService.createMessage(chatlogid, message);
     }
+
+    // DELETE
+    @DeleteMapping
+    public void deleteMessage() {
+        messageService.deleteAllMessages();
+    }
+
+
 }

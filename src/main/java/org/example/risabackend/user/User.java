@@ -24,14 +24,16 @@ public class User {
     private String fullName;
     private String password;
     private String phoneNumber;
-    private String profilePicture = "profilePicture";
+    private String avatar = "profilePicture";
     private String status;
     private Long lastSeen;
     private boolean isOnline;
-    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER) // collections are lazy-loaded by default, need to specify fetch
+    @ManyToMany(mappedBy = "users")
     @JsonIgnore
     private Set<ChatLog> chatLogs;
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    // One User can have many Contacts
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
     private Set<Contact> contacts;
 
     public User(String fullName, String phoneNumber, String password) {
@@ -55,7 +57,7 @@ public class User {
                 "id = " + id +
                 ", fullName = '" + fullName + '\'' +
                 ", phoneNumber = '" + phoneNumber + '\'' +
-                ", profilePicture = '" + profilePicture + '\'' +
+                ", profilePicture = '" + avatar + '\'' +
                 ", status = '" + status + '\'' +
                 ", lastSeen = " + lastSeen +
                 ", isOnline = " + isOnline +

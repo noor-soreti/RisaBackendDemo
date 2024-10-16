@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MessageService {
@@ -36,7 +38,28 @@ public class MessageService {
             chat.getMessages().add(message);
             return messageRepository.save(message);
         }).orElseThrow(() -> new RuntimeException("YOIKNS"));
-        return message;
+        return message1;
     }
 
+    public Set<Message> findUserMessagesInChatLog (Long chatlogid, Long userid) {
+        ChatLog chatLog = chatLogRepository.findChatLogById(chatlogid);
+
+        if (chatLog == null) {
+            throw new RuntimeException("Chat log not found with id: " + chatlogid);
+        }
+
+        Set<Message> messageSet = chatLog.getMessages();
+        Set<Message> returnMessages = new HashSet<>();
+        messageSet.forEach(message -> {
+            if (message.getSenderId().equals(userid)) {
+                returnMessages.add(message);
+            }
+        });
+        System.out.println(returnMessages);
+        return returnMessages;
+    }
+
+    public void deleteAllMessages () {
+        messageRepository.deleteAll();
+    }
 }

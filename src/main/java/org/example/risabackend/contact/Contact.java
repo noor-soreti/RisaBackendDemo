@@ -14,18 +14,18 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "contact_user_id", nullable = false)
-    private Long contactUserId;
+    private Long contactId;
 
-    private String displayName;
     private Long addedAt;
+    private String displayName;
 
-    public Contact(Long userId, Long contactUserId) {
+    public Contact(Long userId, Long contactId, Long addedAt, String displayName) {
         this.userId = userId;
-        this.contactUserId = contactUserId;
+        this.contactId = contactId;
+        this.addedAt = addedAt;
+        this.displayName = displayName;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class Contact {
         return "Contact{" +
                 "id=" + id +
                 ", ownerId=" + userId +
-                ", contactUserId=" + contactUserId +
+                ", contactUserId=" + contactId +
                 ", displayName='" + displayName + '\'' +
                 ", addedAt=" + addedAt +
                 '}';

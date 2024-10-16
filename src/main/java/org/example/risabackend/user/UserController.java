@@ -33,6 +33,15 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/phoneNumber")
+    public ResponseEntity<UserResponseDto> getUserByPhoneNumber(@RequestParam String phoneNumber) {
+        UserResponseDto user = userService.getUserByPhoneNumber(phoneNumber);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
     // POST
     @PostMapping("/login")
     @ResponseBody // @ResponseBody ->  tells controller that returned object is automatically serialized into JSON and passed back into *HttpResponse* object

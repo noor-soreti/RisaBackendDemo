@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 @Entity
 @Table(name = "MESSAGES")
 @Getter @Setter
@@ -15,10 +17,10 @@ public class Message {
     private Long id;
     private String message;
     private Long senderId;
-    private Long deliveredAt;
+    private Timestamp deliveredAt;
     private Long readAt;
 
-    public Message(Long senderId, String message, Long deliveredAt) {
+    public Message(Long senderId, String message, Timestamp deliveredAt) {
         this.senderId = senderId;
         this.message = message;
         this.deliveredAt = deliveredAt;

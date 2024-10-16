@@ -23,11 +23,12 @@ public class UserService {
                             .id(user.getId())
                             .fullName(user.getFullName())
                             .phoneNumber(user.getPhoneNumber())
-                            .profilePicture(user.getProfilePicture())
+                            .avatar(user.getAvatar())
                             .status(user.getStatus())
                             .lastSeen(user.getLastSeen())
                             .isOnline(user.isOnline())
                             .chatLogs(user.getChatLogs())
+                            .contacts(user.getContacts())
                             .build()
             );
         }
@@ -41,11 +42,12 @@ public class UserService {
                 .id(userEntity.getId())
                 .fullName(userEntity.getFullName())
                 .phoneNumber(userEntity.getPhoneNumber())
-                .profilePicture(userEntity.getProfilePicture())
+                .avatar(userEntity.getAvatar())
                 .status(userEntity.getStatus())
                 .lastSeen(userEntity.getLastSeen())
                 .isOnline(userEntity.isOnline())
                 .chatLogs(userEntity.getChatLogs())
+                .contacts(userEntity.getContacts())
                 .build();
     }
 
@@ -58,11 +60,12 @@ public class UserService {
                 .id(userEntity.getId())
                 .fullName(userEntity.getFullName())
                 .phoneNumber(userEntity.getPhoneNumber())
-                .profilePicture(userEntity.getProfilePicture())
+                .avatar(userEntity.getAvatar())
                 .status(userEntity.getStatus())
                 .lastSeen(userEntity.getLastSeen())
                 .isOnline(userEntity.isOnline())
                 .chatLogs(userEntity.getChatLogs())
+                .contacts(userEntity.getContacts())
                 .build();
     }
 
@@ -80,11 +83,12 @@ public class UserService {
                 .id(newUser.getId())
                 .fullName(newUser.getFullName())
                 .phoneNumber(newUser.getPhoneNumber())
-                .profilePicture(newUser.getProfilePicture())
+                .avatar(newUser.getAvatar())
                 .status(newUser.getStatus())
                 .lastSeen(newUser.getLastSeen())
                 .isOnline(newUser.isOnline())
                 .chatLogs(newUser.getChatLogs())
+                .contacts(newUser.getContacts())
                 .build();
     }
 
@@ -100,6 +104,21 @@ public class UserService {
 //        });
 
 //        return Collections.singletonList(UserResponseDto.builder().build());
+    }
+
+    public UserResponseDto searchUserByPhoneNumber(String phoneNumber) {
+        User userEntity = userRepository.findByPhoneNumber(phoneNumber);
+        if (userEntity == null) {
+            return null;
+        }
+        return UserResponseDto.builder()
+                .fullName(userEntity.getFullName())
+                .phoneNumber(userEntity.getPhoneNumber())
+                .avatar(userEntity.getAvatar())
+                .status(userEntity.getStatus())
+                .lastSeen(userEntity.getLastSeen())
+                .isOnline(userEntity.isOnline())
+                .build();
     }
 
     public void deleteAllUsers() {

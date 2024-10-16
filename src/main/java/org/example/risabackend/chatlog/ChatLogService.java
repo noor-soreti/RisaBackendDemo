@@ -6,6 +6,7 @@ import org.example.risabackend.user.User;
 import org.example.risabackend.user.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -50,7 +51,7 @@ public class ChatLogService {
         UserResponseDto userResponseDto = UserResponseDto.builder()
                                                         .id(userEntity.getId())
                                                         .fullName(userEntity.getFullName())
-                                                        .profilePicture(userEntity.getProfilePicture())
+                                                        .avatar(userEntity.getAvatar())
                                                         .status(userEntity.getStatus())
                                                         .lastSeen(userEntity.getLastSeen())
                                                         .isOnline(userEntity.isOnline())
@@ -66,6 +67,7 @@ public class ChatLogService {
         ChatLog chatLog = new ChatLog(new HashSet<>(users));
         ChatLog clog =  chatLogRepository.save(chatLog);
         System.out.println(clog.getId());
+
 //        ChatLogResponseDto.builder()
 //                .chatLogId(clog.getChatLogId())
 //                .message(clog.getMessages())
@@ -85,7 +87,7 @@ public class ChatLogService {
     }
 
     public ChatLogResponseDto appendMessageToChatLog(Long chatLogId, Long userId, String message) {
-        Message message1 = new Message(userId, message, System.currentTimeMillis());
+        Message message1 = new Message(userId, message, new Timestamp(System.currentTimeMillis()));
         System.out.println(message1.toString());
 
         ChatLog chatLog = chatLogRepository.findById(chatLogId).orElse(null);

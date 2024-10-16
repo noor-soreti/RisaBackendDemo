@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @SpringBootApplication
@@ -19,6 +20,7 @@ public class RisaBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(RisaBackendApplication.class, args);
+		System.out.println(new Timestamp(System.currentTimeMillis()));
 	}
 
 	@Bean

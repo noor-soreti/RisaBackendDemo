@@ -25,13 +25,14 @@ public class ChatLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String recentMessage;
+
     // One ChatLog can have many Messages
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "chatlog_id")
     private Set<Message> messages;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
+    @ManyToMany(cascade = {
                 CascadeType.PERSIST,
                     CascadeType.MERGE
             })
