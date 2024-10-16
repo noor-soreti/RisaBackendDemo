@@ -29,14 +29,15 @@ public class RisaBackendApplication {
 
 			List<UserResponseDto> allUsers = userService.getAllUsers();
 
-			if (allUsers.isEmpty()) {
-				User user1 = new User("Emily Grant", "555-123-1234", "test123");
-				User user2 = new User("Ketchup Kid", "098-098-0987", "test123");
-				User user3 = new User("Jane Doe", "345-345-3456", "test123");
-				User user4 = new User("John Doe",  "345-345-3457", "test123");
-				User user5 = new User("Gordon Ramsey", "930-992-3211", "test123");
-				User user6 = new User("Jamie Oliver", "930-381-1754", "test123");
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
+			if (allUsers.isEmpty()) {
+				User user1 = new User("Emily Grant", "555-123-1234", "test123", timestamp);
+				User user2 = new User("Ketchup Kid", "098-098-0987", "test123", new Timestamp(System.currentTimeMillis()));
+				User user3 = new User("Jane Doe", "345-345-3456", "test123", new Timestamp(System.currentTimeMillis()));
+				User user4 = new User("John Doe",  "345-345-3457", "test123", new Timestamp(System.currentTimeMillis()));
+				User user5 = new User("Gordon Ramsey", "930-992-3211", "test123", new Timestamp(System.currentTimeMillis()));
+				User user6 = new User("Jamie Oliver", "930-381-1754", "test123", new Timestamp(System.currentTimeMillis()));
 
 				userService.createUser(user1);
 				userService.createUser(user2);

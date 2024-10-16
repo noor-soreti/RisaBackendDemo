@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.example.risabackend.chatlog.ChatLog;
 import org.example.risabackend.contact.Contact;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public class User {
     private String phoneNumber;
     private String avatar = "profilePicture";
     private String status;
-    private Long lastSeen;
+    private Timestamp lastSeen;
     private boolean isOnline;
     @ManyToMany(mappedBy = "users")
     @JsonIgnore
@@ -41,7 +42,17 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.status = "default";
-        this.lastSeen = System.currentTimeMillis();
+        this.isOnline = true;
+        this.chatLogs = new HashSet<>();
+        this.contacts = new HashSet<>();
+    }
+
+    public User(String fullName, String phoneNumber, String password, Timestamp lastSeen) {
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.lastSeen = lastSeen;
+        this.status = "default";
         this.isOnline = true;
         this.chatLogs = new HashSet<>();
         this.contacts = new HashSet<>();

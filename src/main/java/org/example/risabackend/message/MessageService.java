@@ -5,6 +5,7 @@ import org.example.risabackend.chatlog.ChatLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -34,8 +35,13 @@ public class MessageService {
     }
 
     public Message createMessage(Long chatlogid, Message message) {
+        message.setDeliveredAt(new Timestamp(System.currentTimeMillis()));
         Message message1 = chatLogRepository.findById(chatlogid).map(chat -> {
             chat.getMessages().add(message);
+
+            // set recent message to current message
+            chat.setRecentMessage(message.getMessage());
+
             return messageRepository.save(message);
         }).orElseThrow(() -> new RuntimeException("YOIKNS"));
         return message1;

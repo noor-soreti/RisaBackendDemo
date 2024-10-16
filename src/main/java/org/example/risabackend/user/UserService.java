@@ -3,6 +3,7 @@ package org.example.risabackend.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -77,6 +78,7 @@ public class UserService {
             return null;
         }
 
+        newUser.setLastSeen(new Timestamp(System.currentTimeMillis()));
         userRepository.save(newUser);
 
         return UserResponseDto.builder()

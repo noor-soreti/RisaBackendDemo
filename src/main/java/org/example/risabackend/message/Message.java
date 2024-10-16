@@ -26,6 +26,11 @@ public class Message {
         this.deliveredAt = deliveredAt;
     }
 
+    public Message(Long senderId, String message) {
+        this.senderId = senderId;
+        this.message = message;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
