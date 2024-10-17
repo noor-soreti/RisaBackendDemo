@@ -61,12 +61,11 @@ public class ChatLogService {
 
     }
 
-    public void createChatLog(Set<Long> userIds) {
+    public ChatLog createChatLog(Set<Long> userIds) {
         List<User> users = userRepository.findAllById(userIds);
 
         ChatLog chatLog = new ChatLog(new HashSet<>(users));
-        ChatLog clog =  chatLogRepository.save(chatLog);
-        System.out.println(clog.getId());
+        return chatLogRepository.save(chatLog);
 
 //        ChatLogResponseDto.builder()
 //                .chatLogId(clog.getChatLogId())

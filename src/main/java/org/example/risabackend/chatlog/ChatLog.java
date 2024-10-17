@@ -22,7 +22,7 @@ import java.util.Set;
 @NoArgsConstructor // JPA specification requires a no-args constructor
 public class ChatLog {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String recentMessage;

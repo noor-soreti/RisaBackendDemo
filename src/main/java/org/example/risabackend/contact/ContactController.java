@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -13,6 +14,13 @@ public class ContactController {
 
     public ContactController(ContactService contactService) {
         this.contactService = contactService;
+    }
+
+    // GET
+
+    @GetMapping()
+    public List<Contact> getAllContacts() {
+        return contactService.getAllContacts();
     }
 
     @GetMapping("/id/{uid}")
@@ -34,7 +42,8 @@ public class ContactController {
         return ResponseEntity.status(HttpStatus.CREATED).body(contact);
     }
 
-    @DeleteMapping
+    // DELETE
+    @DeleteMapping("/all")
     public void deleteAllContacts() {
         contactService.deleteAllContacts();
     }

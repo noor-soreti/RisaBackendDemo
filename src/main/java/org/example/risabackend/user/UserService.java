@@ -109,21 +109,6 @@ public class UserService {
 //        return Collections.singletonList(UserResponseDto.builder().build());
     }
 
-    public UserResponseDto searchUserByPhoneNumber(String phoneNumber) {
-        User userEntity = userRepository.findByPhoneNumber(phoneNumber);
-        if (userEntity == null) {
-            return null;
-        }
-        return UserResponseDto.builder()
-                .fullName(userEntity.getFullName())
-                .phoneNumber(userEntity.getPhoneNumber())
-                .avatar(userEntity.getAvatar())
-                .status(userEntity.getStatus())
-                .lastSeen(userEntity.getLastSeen())
-                .isOnline(userEntity.isOnline())
-                .build();
-    }
-
     public void deleteAllUsers() {
         userRepository.deleteAll();
     }

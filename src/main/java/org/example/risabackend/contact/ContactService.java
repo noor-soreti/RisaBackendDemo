@@ -1,14 +1,18 @@
 package org.example.risabackend.contact;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.risabackend.chatlog.ChatLog;
 import org.example.risabackend.chatlog.ChatLogRepository;
 import org.example.risabackend.user.User;
 import org.example.risabackend.user.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @Service
 public class ContactService {
     private ContactRepository contactRepository;
@@ -19,6 +23,10 @@ public class ContactService {
         this.contactRepository = contactRepository;
         this.userRepository = userRepository;
         this.chatLogRepository = chatLogRepository;
+    }
+
+    public List<Contact> getAllContacts() {
+        return contactRepository.findAll();
     }
 
     public Set<Contact> getContactsFromUserId(Long userId) {
@@ -34,23 +42,34 @@ public class ContactService {
     public Contact addContact(Long userId, Long newContactId) {
         User currentUser = userRepository.findFirstById(userId);
         User contactUser = userRepository.findFirstById(newContactId);
-        if (currentUser == null) {
+
+        if (contactUser == null) {
             return null;
         }
 
-        // add contact to current user
-        Contact contact = new Contact(userId, newContactId, System.currentTimeMillis(), currentUser.getFullName());
-        currentUser.getContacts().add(contact);
-        userRepository.saveAndFlush(currentUser);
-
-        // add chat log
-        Set<User> userSet = new HashSet<>();
-        userSet.add(contactUser);
-        userSet.add(currentUser);
-        ChatLog newChatLog = new ChatLog(userSet);
-        chatLogRepository.save(newChatLog);
+        Contact contact = new Contact(currentUser.getId(), contactUser.getId(), new Timestamp(System.currentTimeMillis()), contactUser.getFullName());
+        System.out.println(contact);
+        contactRepository.save(contact);
 
         return contact;
+
+
+//        User contactUser = userRepository.findFirstById(newContactId);
+//
+//        if (contactUser == null) {
+//            return null;
+//        }
+//
+//        Set<Contact> contacts = userRepository.findById(userId)
+//                .map(user -> {
+//                    Contact contact = new Contact(user.getId(), contactUser.getId(), new Timestamp(System.currentTimeMillis()), contactUser.getFullName());
+////                    contactRepository.save(contact);
+//                    user.getContacts().add(contact);
+//                    return user.getContacts();
+//                })
+//                .orElseThrow(() -> new RuntimeException("addContact EXCEPTION"));
+//
+//        return contacts;
     }
 
     public void deleteAllContacts() {

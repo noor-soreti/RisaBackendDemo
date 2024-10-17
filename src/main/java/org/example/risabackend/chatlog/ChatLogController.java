@@ -1,5 +1,6 @@
 package org.example.risabackend.chatlog;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+@Slf4j
 @RestController
 @CrossOrigin(origins = "**") // CrossOrigin -> Enables CORS only for specific methods
 @RequestMapping("/api/chatlog")
@@ -37,8 +39,8 @@ public class ChatLogController {
 
     // POST
     @PostMapping
-    public void createChatLog(@RequestBody Set<Long> userId) {
-       chatLogService.createChatLog(userId);
+    public ChatLog createChatLog(@RequestBody Set<Long> userIds) {
+       return chatLogService.createChatLog(userIds);
     }
 
     @PostMapping("/appendUserToChatLog/{chatlogid}")

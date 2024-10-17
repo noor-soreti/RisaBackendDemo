@@ -51,7 +51,6 @@ public class UserController {
         UserResponseDto userResponseDto = userService.getUserByPhoneNumber(newUser.getPhoneNumber());
         if (userResponseDto == null) {
             System.out.println("LOGIN: user does not exist");
-            System.out.println(ResponseEntity.status(HttpStatus.CONFLICT).build());
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         // return ResponseEntity.ok(HttpStatus.CREATED).body();

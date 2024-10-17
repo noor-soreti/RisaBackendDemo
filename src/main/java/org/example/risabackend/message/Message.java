@@ -15,9 +15,13 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String message;
+
     private Long senderId;
+
     private Timestamp deliveredAt;
+
     private Long readAt;
 
     public Message(Long senderId, String message, Timestamp deliveredAt) {

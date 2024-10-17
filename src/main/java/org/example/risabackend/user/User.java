@@ -20,22 +20,34 @@ import java.util.Set;
 public class User {
     // @Setter(AccessLevel.PROTECTED) // change visibility of id setter property
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String fullName;
+
     private String password;
+
     private String phoneNumber;
+
     private String avatar = "profilePicture";
+
     private String status;
+
     private Timestamp lastSeen;
+
     private boolean isOnline;
+
+    // A User can "belong" to many ChatLogs
     @ManyToMany(mappedBy = "users")
     @JsonIgnore
     private Set<ChatLog> chatLogs;
+
     // One User can have many Contacts
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userId")
-    private Set<Contact> contacts;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    private Set<Contact> contacts = new HashSet<>();
 
     public User(String fullName, String phoneNumber, String password) {
         this.fullName = fullName;
@@ -44,7 +56,7 @@ public class User {
         this.status = "default";
         this.isOnline = true;
         this.chatLogs = new HashSet<>();
-        this.contacts = new HashSet<>();
+//        this.contacts = new HashSet<>();
     }
 
     public User(String fullName, String phoneNumber, String password, Timestamp lastSeen) {
