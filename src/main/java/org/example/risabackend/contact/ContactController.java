@@ -1,5 +1,6 @@
 package org.example.risabackend.contact;
 
+import org.example.risabackend.exceptions.ContactAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +37,6 @@ public class ContactController {
     @PostMapping("/id/{uid}/{contactId}")
     public ResponseEntity<Contact> createContact(@PathVariable Long uid, @PathVariable Long contactId) {
         Contact contact = contactService.addContact(uid, contactId);
-        if (contact == null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
         return ResponseEntity.status(HttpStatus.CREATED).body(contact);
     }
 
@@ -48,4 +46,10 @@ public class ContactController {
         contactService.deleteAllContacts();
     }
 
+    // EXCEPTION HANDLING
+    @ExceptionHandler(ContactAlreadyExistsException.class)
+    public ResponseEntity<String> handleContactAlreadyExists(ContactAlreadyExistsException ex) {
+        System.out.println(ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
 }

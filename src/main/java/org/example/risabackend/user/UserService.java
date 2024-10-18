@@ -1,5 +1,6 @@
 package org.example.risabackend.user;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.risabackend.user.dto.UserResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,7 @@ public class UserService {
     public UserResponseDto getUserByPhoneNumber(String phoneNumber) {
         User userEntity = userRepository.findByPhoneNumber(phoneNumber);
         if (userEntity == null) {
-            return null;
+            throw new EntityNotFoundException("User not found");
         }
         return UserResponseDto.builder()
                 .id(userEntity.getId())

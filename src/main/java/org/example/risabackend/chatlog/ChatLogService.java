@@ -1,5 +1,7 @@
 package org.example.risabackend.chatlog;
 
+import lombok.extern.slf4j.Slf4j;
+import org.example.risabackend.exceptions.ChatLogExistsException;
 import org.example.risabackend.user.dto.UserResponseDto;
 import org.example.risabackend.message.Message;
 import org.example.risabackend.user.User;
@@ -8,7 +10,11 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
+import static java.rmi.server.LogStream.log;
+
+@Slf4j
 @Service
 public class ChatLogService {
     private final ChatLogRepository chatLogRepository;
@@ -63,16 +69,28 @@ public class ChatLogService {
 
     public ChatLog createChatLog(Set<Long> userIds) {
         List<User> users = userRepository.findAllById(userIds);
-
         ChatLog chatLog = new ChatLog(new HashSet<>(users));
+
+        Set<Long> chatLogUserIds = new HashSet<>();
+
+        // get any user
+        User firstUser = users.get(0);
+        // iterate through user's chatLog
+        for (ChatLog logs: firstUser.getChatLogs()) {
+            // extract userIds
+            logs.getUsers().forEach(chatUser -> {
+                // populate set with ids of users present in chatLog
+                chatLogUserIds.add(chatUser.getId());
+            });
+        }
+
+        if (chatLogUserIds.equals(userIds)) {
+            System.out.println(chatLogUserIds);
+            throw new ChatLogExistsException("ChatLog with users: " + chatLogUserIds + " already exists");
+        }
+
         return chatLogRepository.save(chatLog);
 
-//        ChatLogResponseDto.builder()
-//                .chatLogId(clog.getChatLogId())
-//                .message(clog.getMessages())
-//                .users(clog.getUsers())
-//                .build();
-//        return clog.getChatLogId();
     }
 
     public void appendUserToChatLog(Long chatLogId, List<Long> userId) {
@@ -102,6 +120,10 @@ public class ChatLogService {
 
     public void deleteChatLog(Long chatLogId) {
         chatLogRepository.deleteById(chatLogId);
+    }
+
+    public void deleteMultipleChatLogs(Set<Long> chatLogIds) {
+        chatLogRepository.deleteAllById(chatLogIds);
     }
 
     public void deleteAllChatLogs() {

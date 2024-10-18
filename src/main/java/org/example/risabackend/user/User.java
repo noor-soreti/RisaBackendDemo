@@ -82,9 +82,9 @@ public class User {
                 ", phoneNumber = '" + phoneNumber + '\'' +
                 ", profilePicture = '" + avatar + '\'' +
                 ", status = '" + status + '\'' +
-                ", lastSeen = " + lastSeen +
-                ", isOnline = " + isOnline +
-                ", chatLogs = " + chatLogs +
+                ", lastSeen = " + lastSeen + '\'' +
+//                ", isOnline = " + isOnline + '\'' +
+//                ", chatLogs = " + chatLogs + '\'' +
                 '}';
     }
 }

@@ -33,7 +33,7 @@ public class MessageController {
     }
 
     // POST
-    @PostMapping("/chatlog/{chatlogid}/message")
+    @PostMapping("/sendMessage/{chatlogid}")
     public Message sendMessage(@PathVariable Long chatlogid, @RequestBody Message message) {
         return messageService.createMessage(chatlogid, message);
     }

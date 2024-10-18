@@ -33,9 +33,9 @@ public class Contact {
     @Override
     public String toString() {
         return "Contact{" +
-                "id=" + id +
-                ", ownerId=" + user_id +
-                ", contactUserId=" + contact_id +
+                "id=" + id + '\'' +
+                ", ownerId=" + user_id + '\'' +
+                ", contactUserId=" + contact_id + '\'' +
                 ", displayName='" + displayName + '\'' +
                 ", addedAt=" + addedAt +
                 '}';

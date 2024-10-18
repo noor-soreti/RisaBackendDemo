@@ -1,7 +1,10 @@
 package org.example.risabackend.chatlog;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.risabackend.exceptions.ChatLogExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,8 +42,13 @@ public class ChatLogController {
 
     // POST
     @PostMapping
-    public ChatLog createChatLog(@RequestBody Set<Long> userIds) {
-       return chatLogService.createChatLog(userIds);
+    public ResponseEntity<ChatLog> createChatLog(@RequestBody Set<Long> userIds) {
+       ChatLog chatLog = chatLogService.createChatLog(userIds);
+       if (chatLog == null) {
+           System.out.println(ResponseEntity.status(HttpStatus.CONFLICT).build());
+           return ResponseEntity.status(HttpStatus.CONFLICT).build();
+       }
+       return ResponseEntity.status(HttpStatus.CREATED).body(chatLog);
     }
 
     @PostMapping("/appendUserToChatLog/{chatlogid}")
@@ -57,9 +65,19 @@ public class ChatLogController {
         chatLogService.deleteChatLog(id);
     }
 
+    @DeleteMapping("/multiple")
+    public void deleteMultipleChatLogs(@RequestBody Set<Long> userIds) {
+        chatLogService.deleteMultipleChatLogs(userIds);
+    }
+
     @DeleteMapping("/all")
     public void deleteAllChatLogs() {
         chatLogService.deleteAllChatLogs();
     }
 
+    // EXCEPTION HANDLING
+    @ExceptionHandler(ChatLogExistsException.class)
+    public ResponseEntity<String> handleChatLogExistsException(ChatLogExistsException cx) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(cx.getMessage());
+    }
 }

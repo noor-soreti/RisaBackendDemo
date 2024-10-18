@@ -15,6 +15,7 @@ import org.example.risabackend.user.User;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "CHATLOGS")
@@ -44,6 +45,12 @@ public class ChatLog {
     public ChatLog(Set<User> users) {
         this.users = users;
         this.messages = new HashSet<>();
+    }
+
+    public Set<Long> getUserIdsFromChatLog(ChatLog chatLog) {
+        return chatLog.getUsers()
+                .stream().map(User::getId)
+                .collect(Collectors.toSet());
     }
 
     @Override
