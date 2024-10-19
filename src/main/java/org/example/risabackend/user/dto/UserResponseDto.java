@@ -15,8 +15,8 @@ public record UserResponseDto(
         String avatar,
         String status,
         Timestamp lastSeen,
-        boolean isOnline,
-        Set<ChatLog> chatLogs,
-        Set<Contact> contacts
+        boolean isOnline
+//        Set<ChatLog> chatLogs,
+//        Set<Contact> contacts
 ) {
 }

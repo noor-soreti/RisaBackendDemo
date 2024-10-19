@@ -1,6 +1,7 @@
 package org.example.risabackend.chatlog;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.risabackend.chatlog.dto.ChatLogResponseDto;
 import org.example.risabackend.exceptions.ChatLogExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,32 +32,28 @@ public class ChatLogController {
     }
 
     @GetMapping("/chatlogid/{chatlogid}")
-    public ChatLogResponseDto getChatLogById(@PathVariable Long chatlogid) {
-        return chatLogService.getChatLogById(chatlogid);
+    public ResponseEntity<ChatLogResponseDto> getChatLogById(@PathVariable Long chatlogid) {
+        return ResponseEntity.status(HttpStatus.OK).body(chatLogService.getChatLogById(chatlogid));
     }
 
     @GetMapping("/userid/{userId}")
-    public Optional<Set<ChatLog>> getUserChatLogs(@PathVariable Long userId) {
-        return chatLogService.getUserChatLogs(userId);
+    public ResponseEntity<Set<ChatLogResponseDto>> getUserChatLogs(@PathVariable Long userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(chatLogService.getUserChatLogs(userId));
     }
 
     // POST
     @PostMapping
     public ResponseEntity<ChatLog> createChatLog(@RequestBody Set<Long> userIds) {
        ChatLog chatLog = chatLogService.createChatLog(userIds);
-       if (chatLog == null) {
-           System.out.println(ResponseEntity.status(HttpStatus.CONFLICT).build());
-           return ResponseEntity.status(HttpStatus.CONFLICT).build();
-       }
        return ResponseEntity.status(HttpStatus.CREATED).body(chatLog);
     }
 
-    @PostMapping("/appendUserToChatLog/{chatlogid}")
-    public void appendUserToChatLog(@PathVariable Long chatlogid, @RequestBody List<Long> userids) {
-        chatLogService.appendUserToChatLog(chatlogid, userids);
-    }
-
     // PUT
+    @PutMapping("/appendUserToChatLog/{chatlogid}")
+    public ResponseEntity appendUserToChatLog(@PathVariable Long chatlogid, @RequestBody List<Long> userids) {
+        chatLogService.appendUserToChatLog(chatlogid, userids);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
     // DELETE
 
@@ -78,6 +75,7 @@ public class ChatLogController {
     // EXCEPTION HANDLING
     @ExceptionHandler(ChatLogExistsException.class)
     public ResponseEntity<String> handleChatLogExistsException(ChatLogExistsException cx) {
+        System.out.println(ResponseEntity.status(HttpStatus.CONFLICT).body(cx.getMessage()));
         return ResponseEntity.status(HttpStatus.CONFLICT).body(cx.getMessage());
     }
 }

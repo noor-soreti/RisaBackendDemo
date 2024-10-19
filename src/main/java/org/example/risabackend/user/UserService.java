@@ -30,8 +30,6 @@ public class UserService {
                             .status(user.getStatus())
                             .lastSeen(user.getLastSeen())
                             .isOnline(user.isOnline())
-                            .chatLogs(user.getChatLogs())
-                            .contacts(user.getContacts())
                             .build()
             );
         }
@@ -49,8 +47,6 @@ public class UserService {
                 .status(userEntity.getStatus())
                 .lastSeen(userEntity.getLastSeen())
                 .isOnline(userEntity.isOnline())
-                .chatLogs(userEntity.getChatLogs())
-                .contacts(userEntity.getContacts())
                 .build();
     }
 
@@ -67,8 +63,6 @@ public class UserService {
                 .status(userEntity.getStatus())
                 .lastSeen(userEntity.getLastSeen())
                 .isOnline(userEntity.isOnline())
-                .chatLogs(userEntity.getChatLogs())
-                .contacts(userEntity.getContacts())
                 .build();
     }
 
@@ -91,8 +85,6 @@ public class UserService {
                 .status(newUser.getStatus())
                 .lastSeen(newUser.getLastSeen())
                 .isOnline(newUser.isOnline())
-                .chatLogs(newUser.getChatLogs())
-                .contacts(newUser.getContacts())
                 .build();
     }
 

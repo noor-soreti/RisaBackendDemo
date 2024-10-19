@@ -6,6 +6,7 @@ import lombok.Builder;
 public record UserSearchForContactDto (
         Long id,
         String fullName,
-        String phoneNumber){
-
-}
+        String phoneNumber,
+        String avatar,
+        boolean isOnline
+){ }

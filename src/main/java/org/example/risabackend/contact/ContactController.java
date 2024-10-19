@@ -19,14 +19,9 @@ public class ContactController {
 
     // GET
 
-    @GetMapping()
-    public List<Contact> getAllContacts() {
-        return contactService.getAllContacts();
-    }
-
     @GetMapping("/id/{uid}")
-    public ResponseEntity<Set<Contact>> getContacts(@PathVariable Long uid) {
-        Set<Contact> contactSet = contactService.getContactsFromUserId(uid);
+    public ResponseEntity<Set<Contact>> getUserContacts(@PathVariable Long uid) {
+        Set<Contact> contactSet = contactService.getUserContacts(uid);
 
         if (contactSet == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

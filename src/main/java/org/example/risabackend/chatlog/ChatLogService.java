@@ -1,6 +1,7 @@
 package org.example.risabackend.chatlog;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.risabackend.chatlog.dto.ChatLogResponseDto;
 import org.example.risabackend.exceptions.ChatLogExistsException;
 import org.example.risabackend.user.dto.UserResponseDto;
 import org.example.risabackend.message.Message;
@@ -10,9 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.rmi.server.LogStream.log;
 
 @Slf4j
 @Service
@@ -29,12 +27,18 @@ public class ChatLogService {
         List<ChatLog> chatLogs = chatLogRepository.findAll();
         List<ChatLogResponseDto> chatLogRequestDtos = new ArrayList<>();
         for (ChatLog chatLog : chatLogs) {
+            Set<String> names = new HashSet<>();
+
+            for (User user : chatLog.getUsers()) {
+                names.add(user.getFullName());
+            }
+
             chatLogRequestDtos.add(
                     ChatLogResponseDto.builder()
-                            .chatLogId(chatLog.getId())
-                            .message(chatLog.getMessages())
-                            .users(chatLog.getUsers())
-                            .build()
+                    .chatLogId(chatLog.getId())
+//                    .message(chatLog.getMessages())
+                    .names(names)
+                    .build()
             );
         }
         return chatLogRequestDtos;
@@ -43,28 +47,44 @@ public class ChatLogService {
     public ChatLogResponseDto getChatLogById(long chatLogId) {
         ChatLog chatLog = chatLogRepository.findById(chatLogId).orElse(null);
         if (chatLog == null) {
-            return null;
+            throw new RuntimeException("Chat log with id " + chatLogId + " not found");
         }
+
+        Set<String> names = new HashSet<>();
+
+        for (User user : chatLog.getUsers()) {
+            names.add(user.getFullName());
+        }
+
         return ChatLogResponseDto.builder()
                 .chatLogId(chatLog.getId())
-                .message(chatLog.getMessages())
-                .users(chatLog.getUsers())
+//                .message(chatLog.getMessages())
+                .names(names)
                 .build();
     }
 
-    public Optional<Set<ChatLog>> getUserChatLogs(Long userId) {
+    public Set<ChatLogResponseDto> getUserChatLogs(Long userId) {
         User userEntity = userRepository.findFirstById(userId);
-        UserResponseDto userResponseDto = UserResponseDto.builder()
-                                                        .id(userEntity.getId())
-                                                        .fullName(userEntity.getFullName())
-                                                        .avatar(userEntity.getAvatar())
-                                                        .status(userEntity.getStatus())
-                                                        .lastSeen(userEntity.getLastSeen())
-                                                        .isOnline(userEntity.isOnline())
-                                                        .chatLogs(userEntity.getChatLogs())
-                                                        .build();
-        return Optional.of(userResponseDto.chatLogs());
+        Set<ChatLog> chatLogSet = userEntity.getChatLogs();
+        Set<ChatLogResponseDto> chatLogResponseDtoSet = new HashSet<>();
 
+        for (ChatLog chatLog : chatLogSet) {
+            // get all names except currentUser
+            Set<String> names = new HashSet<>();
+            for (User u: chatLog.getUsers()) {
+                if (!u.getFullName().equals(userEntity.getFullName())) {
+                    names.add(u.getFullName());
+                }
+            }
+            chatLogResponseDtoSet.add(
+                    ChatLogResponseDto.builder()
+                    .chatLogId(chatLog.getId())
+                    .recentMessage(chatLog.getRecentMessage())
+                    .names(names).build()
+            );
+        }
+
+        return chatLogResponseDtoSet;
     }
 
     public ChatLog createChatLog(Set<Long> userIds) {
@@ -85,7 +105,6 @@ public class ChatLogService {
         }
 
         if (chatLogUserIds.equals(userIds)) {
-            System.out.println(chatLogUserIds);
             throw new ChatLogExistsException("ChatLog with users: " + chatLogUserIds + " already exists");
         }
 
@@ -101,21 +120,6 @@ public class ChatLogService {
         }
         chatLog.getUsers().addAll(userList);
         chatLogRepository.saveAndFlush(chatLog);
-    }
-
-    public ChatLogResponseDto appendMessageToChatLog(Long chatLogId, Long userId, String message) {
-        Message message1 = new Message(userId, message, new Timestamp(System.currentTimeMillis()));
-        System.out.println(message1.toString());
-
-        ChatLog chatLog = chatLogRepository.findById(chatLogId).orElse(null);
-        chatLog.getMessages().add(message1);
-        chatLogRepository.saveAndFlush(chatLog);
-        return ChatLogResponseDto.builder()
-                .chatLogId(chatLog.getId())
-                .message(chatLog.getMessages())
-                .users(chatLog.getUsers())
-                .build();
-
     }
 
     public void deleteChatLog(Long chatLogId) {

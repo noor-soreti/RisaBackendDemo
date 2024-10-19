@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.example.risabackend.chatlog.ChatLog;
 import org.example.risabackend.chatlog.ChatLogRepository;
+import org.example.risabackend.contact.dto.ContactsResponseDto;
 import org.example.risabackend.exceptions.ContactAlreadyExistsException;
 import org.example.risabackend.user.User;
 import org.example.risabackend.user.UserRepository;
@@ -23,15 +24,12 @@ public class ContactService {
         this.userRepository = userRepository;
     }
 
-    public List<Contact> getAllContacts() {
-        return contactRepository.findAll();
-    }
-
-    public Set<Contact> getContactsFromUserId(Long userId) {
+    public Set<Contact> getUserContacts(Long userId) {
         User user = userRepository.findFirstById(userId);
+        Set<ContactsResponseDto> contactsResponseDtos = new HashSet<>();
 
         if (user == null) {
-            return null;
+            throw new EntityNotFoundException("User not found");
         }
 
         return user.getContacts();

@@ -1,4 +1,4 @@
-package org.example.risabackend.chatlog;
+package org.example.risabackend.chatlog.dto;
 
 import lombok.Builder;
 import org.example.risabackend.message.Message;
@@ -9,7 +9,8 @@ import java.util.Set;
 @Builder
 public record ChatLogResponseDto(
         Long chatLogId,
-        Set<Message> message,
-        Set<User> users
+        String recentMessage,
+//        Set<Message> message,
+        Set<String> names
 ) {
 }
