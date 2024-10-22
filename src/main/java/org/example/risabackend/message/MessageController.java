@@ -1,5 +1,7 @@
 package org.example.risabackend.message;
 
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +36,8 @@ public class MessageController {
 
     // POST
     @PostMapping("/sendMessage/{chatlogid}")
-    public Message sendMessage(@PathVariable Long chatlogid, @RequestBody Message message) {
+    public Message sendMessage(@PathVariable Long chatlogid, @RequestBody Message message) throws Exception {
+//        Thread.sleep(1000);
         return messageService.createMessage(chatlogid, message);
     }
 
@@ -43,6 +46,4 @@ public class MessageController {
     public void deleteMessage() {
         messageService.deleteAllMessages();
     }
-
-
 }
