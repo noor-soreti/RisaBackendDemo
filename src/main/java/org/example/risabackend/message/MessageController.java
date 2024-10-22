@@ -23,7 +23,6 @@ public class MessageController {
     }
 
     // GET
-
     @GetMapping("/chatlog/{chatlogid}/messages")
     public List<Message> getMessagesByChatLog(@PathVariable Long chatlogid) {
         return messageService.getAllMessagesByChatLogId(chatlogid);
@@ -39,6 +38,12 @@ public class MessageController {
     public Message sendMessage(@PathVariable Long chatlogid, @RequestBody Message message) throws Exception {
 //        Thread.sleep(1000);
         return messageService.createMessage(chatlogid, message);
+    }
+
+    // PUT
+    @PutMapping("/updateMessage/{chatlogid}/{messageid}")
+    public void updateMessage(@PathVariable Long chatlogid, @PathVariable Long messageid, @RequestBody Message message) {
+        // update message
     }
 
     // DELETE

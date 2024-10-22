@@ -31,6 +31,9 @@ public class MessageService {
                 .orElseThrow(() -> new RuntimeException("Chat log not found with id: " + chatLogId));
         List<Message> messages = new ArrayList<>();
         messages.addAll(chatLog.getMessages());
+
+        messages.sort((a, b) -> {a.getDeliveredAt().compareTo(b.getDeliveredAt()); return 0; });
+
         return messages;
     }
 
@@ -41,9 +44,11 @@ public class MessageService {
 
             // set recent message to current message
             chat.setRecentMessage(message.getMessage());
+            chatLogRepository.save(chat);
 
             return messageRepository.save(message);
         }).orElseThrow(() -> new RuntimeException("YOIKNS"));
+
         return message1;
     }
 
