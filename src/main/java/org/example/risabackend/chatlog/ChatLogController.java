@@ -56,7 +56,6 @@ public class ChatLogController {
     }
 
     // DELETE
-
     @DeleteMapping("/{id}")
     public void deleteChatLog(@PathVariable Long id) {
         chatLogService.deleteChatLog(id);
