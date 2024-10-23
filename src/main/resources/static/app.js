@@ -4,7 +4,7 @@ const stompClient = new StompJs.Client({
     brokerURL: 'ws://localhost:8080/websocket',
 });
 
-// 2. upon successful connection, client subscribes to /topic/chat destination where the server will publish greeting messages
+// 2. upon successful connection, client subscribes to /topic/chat-{roomId} destination where the server will publish greeting messages
 // 2.1 once the greeting message is received on that destination, it will append a paragraph element to the DOM to display the greeting message
 stompClient.onConnect = (frame) => {
     setConnected(true);
@@ -50,7 +50,7 @@ function disconnect() {
 // 3. retrieve message entered by the user and use the STOMP client to send it to the /app/hello destination (where GreetingController.greeting() will receive it)
 function sendName() {
     const message = {
-        senderId: 202,
+        senderId: 152,
         message: $("#name").val()
     }
     stompClient.publish({
