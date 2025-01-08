@@ -1,2 +1,1 @@
-Backend for real-time mobile app
-Spring Boot
+* Before you start this application, make sure Docker is running
